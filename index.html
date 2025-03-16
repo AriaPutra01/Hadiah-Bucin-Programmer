@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Youuu</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #3d0c3d, #5a1f5a);
+        color: #f8d7ff;
+        min-height: 100vh;
+        overflow: hidden;
+        transition: background 1s ease-in-out;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        place-items: center;
+        text-align: center;
+      }
+
+      /* Background GIF dengan transisi */
+      .bg-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("seaa.gif") center/cover no-repeat;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: -1;
+      }
+
+      .playing .bg-overlay {
+        opacity: 1;
+      }
+
+      /* Wrapper utama */
+      .container {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #f2f2f2;
+        margin: 0;
+      }
+
+      .lyrics {
+        font-size: 22px;
+        padding: 0 1rem;
+        word-wrap: break-word;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        color: #f2f2f2;
+        text-shadow: 0px 0px 10px rgba(255, 182, 255, 0.7);
+      }
+
+      .lyrics.show {
+        opacity: 1;
+      }
+
+      .btn {
+        padding: 10px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #e84393, #c71585);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0px 4px 10px rgba(232, 67, 147, 0.5);
+        font-weight: 600;
+      }
+
+      .btn:hover {
+        background: linear-gradient(135deg, #c71585, #a30e6b);
+        transform: scale(1.05);
+      }
+
+      .btn:active {
+        transform: scale(0.95);
+      }
+
+      /* Wrapper tombol & footer */
+      .bottom-section {
+        position: absolute;
+        bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      footer {
+        font-size: 14px;
+        opacity: 0.6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-overlay"></div>
+
+    <div class="container">
+      <h2>For Youuu 🤍</h2>
+      <p class="lyrics" id="lyrics">Lirik akan muncul di sini...</p>
+    </div>
+
+    <audio id="audio">
+      <source src="lagu.mpeg" type="audio/mpeg" />
+      Browser Anda tidak mendukung audio tag.
+    </audio>
+
+    <div class="bottom-section">
+      <button class="btn" id="playButton">Start</button>
+      <footer>Made with 🤍 by Aria Saputra</footer>
+    </div>
+
+    <script>
+      const lyricsData = [
+        { time: 55, text: "Dan kau hadir merubah segalanya" },
+        { time: 62, text: "Menjadi lebih indah" },
+        { time: 66, text: "Kau bawa cintaku setinggi angkasa" },
+        { time: 71, text: "Membuatku merasa sempurna" },
+        { time: 76, text: "Dan membuatku utuh" },
+        { time: 81, text: "Tuk menjalani hidup" },
+        { time: 85, text: "Berdua denganmu selama lamanya" },
+        { time: 90, text: "Kaulah yang terbaik untukku" },
+      ];
+
+      const audio = document.getElementById("audio");
+      const lyricsElement = document.getElementById("lyrics");
+      const playButton = document.getElementById("playButton");
+      const body = document.body;
+
+      playButton.addEventListener("click", () => {
+        audio.currentTime = 55;
+        audio.play();
+        body.classList.add("playing"); // Tambahin efek transisi GIF
+      });
+
+      audio.addEventListener("timeupdate", () => {
+        const currentTime = Math.floor(audio.currentTime);
+        const lyric = lyricsData.find((l) => l.time === currentTime);
+        if (lyric) {
+          lyricsElement.classList.remove("show");
+          setTimeout(() => {
+            lyricsElement.textContent = lyric.text;
+            lyricsElement.classList.add("show");
+          }, 300);
+        }
+      });
+
+      audio.addEventListener("ended", () => {
+        lyricsElement.textContent = "Thank You, tetap semangatt 🤍";
+        body.classList.remove("playing"); // Balikin ke bg awal
+      });
+
+      setTimeout(() => {
+        audio.pause();
+        lyricsElement.textContent = "Thank You, tetap semangatt 🤍";
+        body.classList.remove("playing"); // Balikin ke bg awal
+      }, (91 - 55 + 13) * 1000);
+    </script>
+  </body>
+</html>
