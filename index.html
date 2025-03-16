@@ -38,11 +38,27 @@
         opacity: 1;
       }
 
+      /* Overlay GIF sebelum mulai */
+      .overlay-gif {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 150px;
+        height: 150px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .hide {
+        opacity: 0;
+        pointer-events: none;
+      }
+
       /* Wrapper utama */
       .container {
         width: 100%;
         max-width: 400px;
-        padding: 20px;
         border-radius: 12px;
         display: flex;
         flex-direction: column;
@@ -111,8 +127,11 @@
   <body>
     <div class="bg-overlay"></div>
 
+    <!-- Overlay GIF sebelum mulai -->
+    <img src="lucu.gif" class="overlay-gif" id="overlayGif" alt="Loading..." />
+
     <div class="container">
-      <h2>For Youuu 🤍</h2>
+      <h2>For Youu 🤍</h2>
       <p class="lyrics" id="lyrics">Lirik akan muncul di sini...</p>
     </div>
 
@@ -141,12 +160,14 @@
       const audio = document.getElementById("audio");
       const lyricsElement = document.getElementById("lyrics");
       const playButton = document.getElementById("playButton");
+      const overlayGif = document.getElementById("overlayGif");
       const body = document.body;
 
       playButton.addEventListener("click", () => {
-        audio.currentTime = 55;
+        overlayGif.classList.add("hide"); // Hilangkan GIF
+        audio.currentTime = 45;
         audio.play();
-        body.classList.add("playing"); // Tambahin efek transisi GIF
+        body.classList.add("playing"); // Tambahin efek transisi GIF background
       });
 
       audio.addEventListener("timeupdate", () => {
@@ -162,15 +183,19 @@
       });
 
       audio.addEventListener("ended", () => {
-        lyricsElement.textContent = "Thank You, tetap semangatt 🤍";
+        lyricsElement.textContent =
+          "Thank You udah lihat sampai akhir, Semangattt buat besok ujian nya yahh jangan lupa istirahat dan jangan lupa ada aku buat tempat bersandar hehe 🤍";
         body.classList.remove("playing"); // Balikin ke bg awal
+        overlayGif.classList.remove("hide"); // Hilangkan GIF
       });
 
       setTimeout(() => {
         audio.pause();
-        lyricsElement.textContent = "Thank You, tetap semangatt 🤍";
+        lyricsElement.textContent =
+          "Thank You udah lihat sampai akhir, Semangattt buat besok ujian nya yahh jangan lupa istirahat dan jangan lupa ada aku buat tempat bersandar hehe 🤍";
         body.classList.remove("playing"); // Balikin ke bg awal
-      }, (91 - 55 + 13) * 1000);
+        overlayGif.classList.remove("hide"); // Hilangkan GIF
+      }, (91 - 55 + 12) * 1000);
     </script>
   </body>
 </html>
